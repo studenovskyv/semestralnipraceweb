@@ -1,8 +1,137 @@
-body { background: #f0f4f8; font-family: 'Segoe UI', sans-serif; padding: 40px; color: #334155; }
-.wrap { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr; gap: 30px; }
-.box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-h1 { grid-column: 1 / -1; text-align: center; color: #1e293b; margin-bottom: 30px; }
-input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 10px; }
-button { width: 100%; background: #2563eb; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-button:hover { background: #1d4ed8; }
-.res { background: white; border-left: 5px solid #2563eb; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+/* ZÁKLADNÍ RESET A PÍSMO */
+body {
+  background-color: #f0f4f8;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #334155;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* HLAVNÍ KONTEJNER */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* KARTY (BOXÍKY) */
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 25px;
+}
+
+.card.small {
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card.small:hover {
+  transform: translateY(-5px);
+}
+
+/* HERO SEKCE (ÚVOD) */
+.hero {
+  text-align: center;
+  padding: 60px !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%) !important;
+}
+
+.hero h1 {
+  margin-top: 0;
+  color: #1e293b;
+}
+
+/* STATISTIKY */
+.stat {
+  background: #eff6ff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  color: #2563eb;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* GRID ROZLOŽENÍ */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* FORMULÁŘOVÉ PRVKY */
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #64748b;
+  margin-top: 15px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 5px;
+  border: 2px solid #f1f5f9;
+  border-radius: 12px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  background-color: #f8fafc;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #2563eb;
+  background-color: white;
+}
+
+/* TLAČÍTKO */
+.btn {
+  width: 100%;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 20px;
+}
+
+.btn:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* KARTA JEDNOTLIVÉ REZERVACE */
+.res-card {
+  background: white;
+  border-left: 6px solid #2563eb;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #f1f5f9;
+  border-right: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* MOBILNÍ ÚPRAVA */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    padding: 30px !important;
+  }
+}
