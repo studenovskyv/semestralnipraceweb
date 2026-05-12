@@ -1,10 +1,26 @@
-"devDependencies": {
+{
+  "name": "rezervace-mistnosti",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@vercel/postgres": "latest"
+  },
+  "devDependencies": {
     "typescript": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@types/node": "latest",
     "tailwindcss": "latest",
-    "@tailwindcss/postcss": "latest", 
+    "@tailwindcss/postcss": "latest",
     "postcss": "latest",
     "autoprefixer": "latest"
   }
+}
