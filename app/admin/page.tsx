@@ -2,91 +2,80 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: { password?: string }
+}) {
+  const password = searchParams.password;
+  const isAdmin = password === 'admin';
+
   let rows: any[] = [];
-  try {
+  if (isAdmin) {
     const data = await sql`SELECT * FROM rezervace ORDER BY datum DESC`;
     rows = data.rows;
-  } catch (e) {
-    console.error(e);
   }
 
   async function deleteReservation(formData: FormData) {
     'use server';
     const id = formData.get('id');
-    try {
-      await sql`DELETE FROM rezervace WHERE id = ${id as string}`;
-      revalidatePath('/admin');
-      revalidatePath('/');
-    } catch (e) {
-      console.error(e);
-    }
+    const pass = formData.get('pass');
+    await sql`DELETE FROM rezervace WHERE id = ${id as string}`;
+    revalidatePath(`/admin?password=${pass}`);
   }
 
   return (
     <div className="container">
       <div className="card" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        <div>
-          <h1 style={{margin: 0}}>Admin Panel</h1>
-          <p style={{color: '#64748b', margin: '5px 0 0 0'}}>Správa rezervací HubSpace Prague</p>
-        </div>
-        <Link href="/" style={{
-          textDecoration: 'none', 
-          background: '#f1f5f9', 
-          padding: '10px 20px', 
-          borderRadius: '10px',
-          color: '#1e293b',
-          fontWeight: 'bold'
-        }}>
-          ← Zpět na web
-        </Link>
+        <h1>Admin Panel</h1>
+        <Link href="/" style={{textDecoration: 'none', color: '#2563eb', fontWeight: 'bold'}}>← Zpět na web</Link>
       </div>
 
-      <div className="card" style={{overflowX: 'auto'}}>
-        <table style={{width: '100%', borderCollapse: 'collapse', textAlign: 'left'}}>
-          <thead>
-            <tr style={{borderBottom: '2px solid #f1f5f9'}}>
-              <th style={{padding: '15px'}}>Jméno / Firma</th>
-              <th style={{padding: '15px'}}>Místnost</th>
-              <th style={{padding: '15px'}}>Datum a čas</th>
-              <th style={{padding: '15px', textAlign: 'right'}}>Akce</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.length === 0 ? (
-              <tr><td colSpan={4} style={{padding: '20px', textAlign: 'center', color: '#94a3b8'}}>Žádné rezervace k zobrazení.</td></tr>
-            ) : (
-              rows.map((r) => (
+      {!isAdmin ? (
+        /* PŘIHLAŠOVACÍ FORMULÁŘ */
+        <div className="card" style={{textAlign: 'center', maxWidth: '400px', margin: '40px auto'}}>
+          <h3>Zadejte heslo</h3>
+          <form method="GET">
+            <input 
+              name="password" 
+              type="password" 
+              placeholder="Heslo (zkus 'admin')" 
+              required 
+              style={{textAlign: 'center'}}
+            />
+            <button type="submit" className="btn">Vstoupit</button>
+          </form>
+        </div>
+      ) : (
+        /* TABULKA REZERVACÍ (ZOBRAZÍ SE JEN PO ZADÁNÍ HESLA) */
+        <div className="card">
+          <table style={{width: '100%', borderCollapse: 'collapse'}}>
+            <thead>
+              <tr style={{borderBottom: '2px solid #f1f5f9', textAlign: 'left'}}>
+                <th style={{padding: '12px'}}>Uživatel</th>
+                <th style={{padding: '12px'}}>Místnost</th>
+                <th style={{padding: '12px'}}>Akce</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
                 <tr key={r.id} style={{borderBottom: '1px solid #f1f5f9'}}>
-                  <td style={{padding: '15px', fontWeight: '600'}}>{r.jmeno}</td>
-                  <td style={{padding: '15px'}}>{r.mistnost}</td>
-                  <td style={{padding: '15px'}}>{new Date(r.datum).toLocaleString('cs-CZ')}</td>
-                  <td style={{padding: '15px', textAlign: 'right'}}>
+                  <td style={{padding: '12px'}}>{r.jmeno}</td>
+                  <td style={{padding: '12px'}}>{r.mistnost}</td>
+                  <td style={{padding: '12px', textAlign: 'right'}}>
                     <form action={deleteReservation}>
                       <input type="hidden" name="id" value={r.id} />
-                      <button type="submit" style={{
-                        background: '#fee2e2', 
-                        color: '#ef4444', 
-                        border: 'none', 
-                        padding: '8px 15px', 
-                        borderRadius: '8px', 
-                        cursor: 'pointer',
-                        fontWeight: 'bold'
-                      }}>
-                        Smazat
-                      </button>
+                      <input type="hidden" name="pass" value="admin" />
+                      <button type="submit" style={{background: '#ef4444', color: 'white', border: 'none', padding: '8px 12px', borderRadius: '8px', cursor: 'pointer'}}>Smazat</button>
                     </form>
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-      
-      <footer style={{textAlign: 'center', color: '#94a3b8', fontSize: '0.8rem'}}>
-        Administrační sekce vyžaduje autorizaci (v demo verzi vypnuto)
-      </footer>
+              ))}
+            </tbody>
+          </table>
+          <p style={{marginTop: '20px', color: '#10b981', fontWeight: 'bold'}}>✓ Přihlášen jako administrátor</p>
+        </div>
+      )}
     </div>
   );
 }
