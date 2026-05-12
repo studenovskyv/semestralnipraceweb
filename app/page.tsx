@@ -6,9 +6,7 @@ export default async function Home() {
   try {
     const data = await sql`SELECT * FROM rezervace ORDER BY datum DESC`;
     rows = data.rows;
-  } catch (e) {
-    console.log("Tabulka jeste neexistuje");
-  }
+  } catch (e) { console.log(e); }
 
   async function createReservation(formData: FormData) {
     'use server';
@@ -20,32 +18,82 @@ export default async function Home() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center mb-12 text-black">Rezervační systém</h1>
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-          <h2 className="text-xl font-bold mb-6 text-black">Nová rezervace</h2>
-          <form action={createReservation} className="space-y-4">
-            <select name="mistnost" className="w-full border p-3 rounded-xl text-black bg-white">
-              <option>Velká zasedačka</option>
-              <option>Malá zasedačka</option>
-              <option>Chill-out zóna</option>
+    <div className="container">
+      {/* HERO SEKCE - O čem ten web je */}
+      <header className="hero card">
+        <h1 style={{fontSize: '3rem', marginBottom: '10px'}}>HubSpace <span style={{color: '#2563eb'}}>Prague</span></h1>
+        <p style={{fontSize: '1.2rem', color: '#64748b'}}>
+          Nejmodernější coworkingové centrum v srdci města. Nabízíme inspirativní prostředí, 
+          vysokorychlostní internet a výběrovou kávu pro vaši práci.
+        </p>
+        <div style={{display: 'flex', gap: '20px', marginTop: '20px', justifyContent: 'center'}}>
+          <div className="stat"><strong>50+</strong> míst</div>
+          <div className="stat"><strong>3</strong> zasedačky</div>
+          <div className="stat"><strong>24/7</strong> přístup</div>
+        </div>
+      </header>
+
+      {/* SEKCE SLUŽEB */}
+      <section style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', margin: '40px 0'}}>
+        <div className="card small">
+          <h3>FixDesk</h3>
+          <p>Vaše vlastní pracovní místo, které na vás vždy čeká.</p>
+        </div>
+        <div className="card small">
+          <h3>FlexDesk</h3>
+          <p>Přijďte, sedněte si, kde je volno, a tvořte.</p>
+        </div>
+        <div className="card small">
+          <h3>Event Hall</h3>
+          <p>Prostor pro vaše workshopy a přednášky.</p>
+        </div>
+      </section>
+
+      <hr style={{border: '0', borderTop: '1px solid #e2e8f0', margin: '60px 0'}} />
+
+      {/* REZERVAČNÍ SYSTÉM - Doplněk stránky */}
+      <div id="rezervace" className="grid">
+        <div className="card">
+          <h2 style={{marginTop: 0}}>Rezervace prostor</h2>
+          <p style={{marginBottom: '20px', fontSize: '0.9rem'}}>
+            Potřebujete klid na schůzku nebo brainstorming? Zarezervujte si jednu z našich zasedaček přímo zde.
+          </p>
+          <form action={createReservation}>
+            <label>Vyberte místnost</label>
+            <select name="mistnost">
+              <option>Velká zasedačka (12 osob)</option>
+              <option>Malá zasedačka (4 osoby)</option>
+              <option>Chill-out zóna (6 osob)</option>
             </select>
-            <input name="jmeno" type="text" placeholder="Vaše jméno" className="w-full border p-3 rounded-xl text-black bg-white" required />
-            <input name="datum" type="datetime-local" className="w-full border p-3 rounded-xl text-black bg-white" required />
-            <button type="submit" className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition">Rezervovat</button>
+            <label>Vaše jméno / Firma</label>
+            <input name="jmeno" type="text" placeholder="Např. Google s.r.o." required />
+            <label>Datum a čas zahájení</label>
+            <input name="datum" type="datetime-local" required />
+            <button type="submit" className="btn">Potvrdit rezervaci</button>
           </form>
         </div>
-        <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4 text-black">
-          {rows.map((r) => (
-            <div key={r.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-              <h3 className="text-lg font-bold text-blue-600">{r.mistnost}</h3>
-              <p className="mt-2 font-medium">Uživatel: {r.jmeno}</p>
-              <p className="text-slate-500 text-sm">Datum: {new Date(r.datum).toLocaleString('cs-CZ')}</p>
-            </div>
-          ))}
+
+        <div>
+          <h3 style={{marginLeft: '15px'}}>Aktuální obsazenost</h3>
+          {rows.length === 0 ? (
+            <p style={{marginLeft: '15px', color: '#94a3b8'}}>Zatím žádné rezervace.</p>
+          ) : (
+            rows.map((r) => (
+              <div key={r.id} className="res-card">
+                <div style={{fontWeight: 'bold', color: '#2563eb'}}>{r.mistnost}</div>
+                <div style={{fontSize: '1.1rem', margin: '5px 0'}}>{r.jmeno}</div>
+                <div style={{fontSize: '0.8rem', color: '#64748b'}}>
+                   {new Date(r.datum).toLocaleString('cs-CZ', { dateStyle: 'long', timeStyle: 'short' })}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
-    </main>
+
+      <footer style={{textAlign: 'center', marginTop: '60px', color: '#94a3b8', fontSize: '0.8rem'}}>
+        © 2026 HubSpace Prague. Všechna práva vyhrazena. | Adresa: Václavské náměstí 1, Praha
+      </footer>
+    </div>
   );
 }
