@@ -1,5 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
+import Link from 'next/link';
 
 export default async function Home() {
   let rows: any[] = [];
@@ -26,6 +27,7 @@ export default async function Home() {
 
   return (
     <>
+      {/* ČISTÁ NAVIGACE BEZ DUPLICIT */}
       <nav className="navbar">
         <div style={{fontWeight: 'bold', fontSize: '1.4rem', color: '#2563eb'}}>HubSpace.</div>
         <div className="nav-links">
@@ -51,36 +53,35 @@ export default async function Home() {
 
         {/* SLUŽBY */}
         <section id="sluzby">
-          <h2 style={{textAlign: 'center', marginBottom: '30px'}}>Naše prostory</h2>
+          <h2 style={{textAlign: 'center', marginBottom: '30px', marginTop: '60px'}}>Naše prostory</h2>
           <div className="grid-3">
-            <div className="card" style={{padding: '20px', textAlign: 'center'}}>
+            <div className="card small">
               <div style={{fontSize: '3rem'}}>🖥️</div>
               <h3>Open Space</h3>
-              <p>Sdílený prostor pro networking.</p>
+              <p>Sdílený prostor pro networking a spolupráci.</p>
             </div>
-            <div className="card" style={{padding: '20px', textAlign: 'center'}}>
+            <div className="card small">
               <div style={{fontSize: '3rem'}}>📞</div>
               <h3>Phone Booths</h3>
-              <p>Odhlučněné budky pro vaše hovory.</p>
+              <p>Odhlučněné budky pro vaše soukromé hovory.</p>
             </div>
-            <div className="card" style={{padding: '20px', textAlign: 'center'}}>
+            <div className="card small">
               <div style={{fontSize: '3rem'}}>🛋️</div>
               <h3>Relax Zóna</h3>
-              <p>Místo pro odpočinek a šachy.</p>
+              <p>Místo pro odpočinek, kávu a načerpání sil.</p>
             </div>
           </div>
         </section>
 
         {/* CENÍK */}
         <section id="cenik">
-          <h2 style={{textAlign: 'center', marginBottom: '30px'}}>Členství</h2>
+          <h2 style={{textAlign: 'center', marginBottom: '30px', marginTop: '60px'}}>Členství</h2>
           <div className="grid-3">
             <div className="card" style={{textAlign: 'center', border: '1px solid #e2e8f0'}}>
               <h4>Denní Pass</h4>
               <div className="price-tag">350 Kč</div>
               <p>Přístup na 1 den</p>
             </div>
-            {/* TADY BYLA TA CHYBA - OPRAVENO NA borderWidth a borderStyle */}
             <div className="card" style={{textAlign: 'center', borderColor: '#2563eb', borderStyle: 'solid', borderWidth: '2px'}}>
               <h4>Monthly Fix</h4>
               <div className="price-tag">4 500 Kč</div>
@@ -95,17 +96,20 @@ export default async function Home() {
         </section>
 
         {/* REZERVACE */}
-        <section id="rezervace" style={{marginTop: '80px'}}>
+        <section id="rezervace" style={{marginTop: '80px', paddingBottom: '60px'}}>
           <div className="grid-res">
             <div className="card">
               <h2 style={{marginTop: 0}}>Rezervovat zasedačku</h2>
               <form action={createReservation}>
+                <label>Vyberte místnost</label>
                 <select name="mistnost">
                   <option>Velká zasedačka (Premium)</option>
                   <option>Malá zasedačka (Standard)</option>
                   <option>Nahrávací studio</option>
                 </select>
-                <input name="jmeno" type="text" placeholder="Vaše jméno / Název firmy" required />
+                <label>Jméno / Firma</label>
+                <input name="jmeno" type="text" placeholder="Vaše jméno" required />
+                <label>Datum a čas</label>
                 <input name="datum" type="datetime-local" required />
                 <button type="submit" className="btn">Vytvořit rezervaci</button>
               </form>
@@ -128,8 +132,14 @@ export default async function Home() {
           </div>
         </section>
 
-        <footer style={{textAlign: 'center', padding: '50px 0', color: '#94a3b8'}}>
-          HubSpace Prague &copy; 2026 | Vyrobeno pro semestrální práci
+        {/* ČISTÁ PATIČKA S ADMIN ODKAZEM */}
+        <footer style={{textAlign: 'center', padding: '50px 0', color: '#94a3b8', borderTop: '1px solid #e2e8f0'}}>
+          <p>HubSpace Prague &copy; 2026</p>
+          <div style={{marginTop: '10px'}}>
+            <Link href="/admin" style={{color: '#cbd5e1', textDecoration: 'none', fontSize: '0.8rem'}}>
+              Systémová správa (Admin)
+            </Link>
+          </div>
         </footer>
       </div>
     </>
