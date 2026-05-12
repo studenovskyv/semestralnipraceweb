@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default async function Home() {
   let rows: any[] = [];
   try {
-    const data = await sql`SELECT * FROM rezervace ORDER BY datum DESC`;
+    const data = await sql`SELECT * FROM rezervace ORDER BY datum DESC LIMIT 5`;
     rows = data.rows;
   } catch (e) { 
     console.log("Chyba při načítání dat:", e); 
@@ -27,7 +27,7 @@ export default async function Home() {
 
   return (
     <>
-      {/* ČISTÁ NAVIGACE */}
+      {/* NAVIGACE */}
       <nav className="navbar">
         <div style={{fontWeight: 'bold', fontSize: '1.4rem', color: '#2563eb'}}>HubSpace.</div>
         <div className="nav-links">
@@ -46,41 +46,89 @@ export default async function Home() {
             Zapomeňte na hlučné kavárny. Nabízíme profesionální zázemí, komunitu kreativců a prostor, který roste s vámi.
           </p>
           <div style={{display: 'flex', gap: '15px', justifyContent: 'center'}}>
-             <span style={{background: '#fff', padding: '10px 20px', borderRadius: '50px', border: '1px solid #e2e8f0'}}>☕ Káva zdarma</span>
-             <span style={{background: '#fff', padding: '10px 20px', borderRadius: '50px', border: '1px solid #e2e8f0'}}>🚀 1Gbps Internet</span>
+             <span style={{background: '#f8fafc', padding: '10px 20px', borderRadius: '50px', border: '1px solid #e2e8f0'}}>☕ Káva zdarma</span>
+             <span style={{background: '#f8fafc', padding: '10px 20px', borderRadius: '50px', border: '1px solid #e2e8f0'}}>🚀 1Gbps Internet</span>
           </div>
         </header>
 
+        {/* SEKCE SLUŽBY */}
+        <section id="sluzby" style={{padding: '40px 0'}}>
+          <h2 style={{textAlign: 'center', marginBottom: '30px'}}>Naše Služby</h2>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px'}}>
+            <div className="card" style={{padding: '25px', textAlign: 'center'}}>
+              <div style={{fontSize: '2rem', marginBottom: '15px'}}>🏢</div>
+              <h3>Coworking</h3>
+              <p style={{color: '#64748b'}}>Flexibilní pracovní místa v otevřeném prostoru.</p>
+            </div>
+            <div className="card" style={{padding: '25px', textAlign: 'center'}}>
+              <div style={{fontSize: '2rem', marginBottom: '15px'}}>🤝</div>
+              <h3>Zasedačky</h3>
+              <p style={{color: '#64748b'}}>Soukromé prostory pro vaše meetingy a workshopy.</p>
+            </div>
+            <div className="card" style={{padding: '25px', textAlign: 'center'}}>
+              <div style={{fontSize: '2rem', marginBottom: '15px'}}>🎙️</div>
+              <h3>Podcast Studio</h3>
+              <p style={{color: '#64748b'}}>Profesionální technika pro vaše nahrávání.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* SEKCE CENÍK */}
+        <section id="cenik" style={{padding: '40px 0'}}>
+          <h2 style={{textAlign: 'center', marginBottom: '30px'}}>Ceník</h2>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px'}}>
+            <div className="card" style={{border: '1px solid #e2e8f0'}}>
+              <h3 style={{color: '#2563eb'}}>Denní Pass</h3>
+              <p style={{fontSize: '2rem', fontWeight: 'bold'}}>450 Kč <span style={{fontSize: '1rem', color: '#94a3b8'}}>/ den</span></p>
+              <ul style={{paddingLeft: '20px', color: '#64748b'}}>
+                <li>Přístup 8:00 - 18:00</li>
+                <li>Vysokorychlostní WiFi</li>
+                <li>Neomezená káva a čaj</li>
+              </ul>
+            </div>
+            <div className="card" style={{border: '2px solid #2563eb'}}>
+              <h3 style={{color: '#2563eb'}}>Měsíční Členství</h3>
+              <p style={{fontSize: '2rem', fontWeight: 'bold'}}>4 900 Kč <span style={{fontSize: '1rem', color: '#94a3b8'}}>/ měsíc</span></p>
+              <ul style={{paddingLeft: '20px', color: '#64748b'}}>
+                <li>Přístup 24/7</li>
+                <li>Vlastní pracovní stůl</li>
+                <li>5h zasedačky zdarma</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         {/* SEKCE REZERVACE */}
-        <section id="rezervace" style={{marginTop: '40px', paddingBottom: '60px'}}>
+        <section id="rezervace" style={{padding: '40px 0'}}>
           <div className="grid-res">
             <div className="card">
-              <h2 style={{marginTop: 0}}>Rezervovat zasedačku</h2>
+              <h2 style={{marginTop: 0}}>Rezervovat prostor</h2>
               <form action={createReservation}>
                 <label>Vyberte místnost</label>
-                <select name="mistnost" style={{width: '100%', padding: '10px', marginBottom: '15px', borderRadius: '8px', border: '1px solid #e2e8f0'}}>
+                <select name="mistnost" required>
                   <option>Velká zasedačka (Premium)</option>
                   <option>Malá zasedačka (Standard)</option>
                   <option>Nahrávací studio</option>
+                  <option>Eventový prostor</option>
                 </select>
                 
                 <label>Vaše jméno</label>
-                <input name="jmeno" type="text" placeholder="Jan Novák" required style={{width: '100%', padding: '10px', marginBottom: '15px', borderRadius: '8px', border: '1px solid #e2e8f0'}} />
+                <input name="jmeno" type="text" placeholder="Jan Novák" required />
                 
                 <label>Datum a čas</label>
-                <input name="datum" type="datetime-local" required style={{width: '100%', padding: '10px', marginBottom: '20px', borderRadius: '8px', border: '1px solid #e2e8f0'}} />
+                <input name="datum" type="datetime-local" required />
                 
-                <button type="submit" className="btn" style={{width: '100%'}}>Vytvořit rezervaci</button>
+                <button type="submit" className="btn" style={{width: '100%'}}>Potvrdit rezervaci</button>
               </form>
             </div>
 
             <div>
-              <h3 style={{marginTop: 0, marginBottom: '20px'}}>Poslední rezervace</h3>
+              <h3 style={{marginTop: 0, marginBottom: '20px'}}>Aktuální obsazenost</h3>
               {rows.length === 0 ? (
                 <p style={{color: '#94a3b8'}}>Zatím žádné rezervace.</p>
               ) : (
                 rows.map((r) => (
-                  <div key={r.id} className="res-card" style={{background: 'white', padding: '15px', borderRadius: '12px', marginBottom: '10px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)'}}>
+                  <div key={r.id} className="res-card">
                     <div style={{fontWeight: 'bold', color: '#2563eb'}}>{r.mistnost}</div>
                     <div style={{fontSize: '1.1rem', margin: '5px 0'}}>{r.jmeno}</div>
                     <div style={{fontSize: '0.8rem', color: '#64748b'}}>{new Date(r.datum).toLocaleString('cs-CZ')}</div>
@@ -91,9 +139,9 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* PATIČKA S ADMINEM */}
+        {/* PATIČKA */}
         <footer style={{textAlign: 'center', padding: '60px 0', color: '#94a3b8', borderTop: '1px solid #e2e8f0'}}>
-          <p>HubSpace Prague &copy; 2026</p>
+          <p>HubSpace Prague • Coworking & Community</p>
           <div style={{marginTop: '15px'}}>
             <Link href="/admin" style={{color: '#cbd5e1', textDecoration: 'none', fontSize: '0.8rem'}}>
               Systémová správa
