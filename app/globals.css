@@ -1,3 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+body { background: #f0f4f8; font-family: 'Segoe UI', sans-serif; padding: 40px; color: #334155; }
+.wrap { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr; gap: 30px; }
+.box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+h1 { grid-column: 1 / -1; text-align: center; color: #1e293b; margin-bottom: 30px; }
+input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 10px; }
+button { width: 100%; background: #2563eb; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button:hover { background: #1d4ed8; }
+.res { background: white; border-left: 5px solid #2563eb; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
