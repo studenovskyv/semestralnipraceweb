@@ -18,82 +18,108 @@ export default async function Home() {
   }
 
   return (
-    <div className="container">
-      {/* HERO SEKCE - O čem ten web je */}
-      <header className="hero card">
-        <h1 style={{fontSize: '3rem', marginBottom: '10px'}}>HubSpace <span style={{color: '#2563eb'}}>Prague</span></h1>
-        <p style={{fontSize: '1.2rem', color: '#64748b'}}>
-          Nejmodernější coworkingové centrum v srdci města. Nabízíme inspirativní prostředí, 
-          vysokorychlostní internet a výběrovou kávu pro vaši práci.
-        </p>
-        <div style={{display: 'flex', gap: '20px', marginTop: '20px', justifyContent: 'center'}}>
-          <div className="stat"><strong>50+</strong> míst</div>
-          <div className="stat"><strong>3</strong> zasedačky</div>
-          <div className="stat"><strong>24/7</strong> přístup</div>
+    <>
+      <nav className="navbar">
+        <div style={{fontWeight: 'bold', fontSize: '1.4rem', color: '#2563eb'}}>HubSpace.</div>
+        <div className="nav-links">
+          <a href="#home">Domů</a>
+          <a href="#sluzby">Služby</a>
+          <a href="#cenik">Ceník</a>
+          <a href="#rezervace" style={{background: '#2563eb', color: 'white', padding: '10px 20px', borderRadius: '10px'}}>Rezervovat</a>
         </div>
-      </header>
+      </nav>
 
-      {/* SEKCE SLUŽEB */}
-      <section style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', margin: '40px 0'}}>
-        <div className="card small">
-          <h3>FixDesk</h3>
-          <p>Vaše vlastní pracovní místo, které na vás vždy čeká.</p>
-        </div>
-        <div className="card small">
-          <h3>FlexDesk</h3>
-          <p>Přijďte, sedněte si, kde je volno, a tvořte.</p>
-        </div>
-        <div className="card small">
-          <h3>Event Hall</h3>
-          <p>Prostor pro vaše workshopy a přednášky.</p>
-        </div>
-      </section>
-
-      <hr style={{border: '0', borderTop: '1px solid #e2e8f0', margin: '60px 0'}} />
-
-      {/* REZERVAČNÍ SYSTÉM - Doplněk stránky */}
-      <div id="rezervace" className="grid">
-        <div className="card">
-          <h2 style={{marginTop: 0}}>Rezervace prostor</h2>
-          <p style={{marginBottom: '20px', fontSize: '0.9rem'}}>
-            Potřebujete klid na schůzku nebo brainstorming? Zarezervujte si jednu z našich zasedaček přímo zde.
+      <div className="container" id="home">
+        {/* HERO SECTION */}
+        <header className="card hero">
+          <h1 style={{fontSize: '3.5rem', marginBottom: '20px'}}>Pracujte lépe v <span style={{color: '#2563eb'}}>HubSpace</span></h1>
+          <p style={{fontSize: '1.2rem', maxWidth: '700px', margin: '0 auto 30px', color: '#64748b'}}>
+            Zapomeňte na hlučné kavárny. Nabízíme profesionální zázemí, komunitu kreativců a prostor, který roste s vámi.
           </p>
-          <form action={createReservation}>
-            <label>Vyberte místnost</label>
-            <select name="mistnost">
-              <option>Velká zasedačka (12 osob)</option>
-              <option>Malá zasedačka (4 osoby)</option>
-              <option>Chill-out zóna (6 osob)</option>
-            </select>
-            <label>Vaše jméno / Firma</label>
-            <input name="jmeno" type="text" placeholder="Např. Google s.r.o." required />
-            <label>Datum a čas zahájení</label>
-            <input name="datum" type="datetime-local" required />
-            <button type="submit" className="btn">Potvrdit rezervaci</button>
-          </form>
-        </div>
+          <div style={{display: 'flex', gap: '15px', justifyContent: 'center'}}>
+             <span style={{background: '#fff', padding: '10px 20px', borderRadius: '50px', border: '1px solid #e2e8f0'}}>☕ Káva zdarma</span>
+             <span style={{background: '#fff', padding: '10px 20px', borderRadius: '50px', border: '1px solid #e2e8f0'}}>🚀 1Gbps Internet</span>
+          </div>
+        </header>
 
-        <div>
-          <h3 style={{marginLeft: '15px'}}>Aktuální obsazenost</h3>
-          {rows.length === 0 ? (
-            <p style={{marginLeft: '15px', color: '#94a3b8'}}>Zatím žádné rezervace.</p>
-          ) : (
-            rows.map((r) => (
-              <div key={r.id} className="res-card">
-                <div style={{fontWeight: 'bold', color: '#2563eb'}}>{r.mistnost}</div>
-                <div style={{fontSize: '1.1rem', margin: '5px 0'}}>{r.jmeno}</div>
-                <div style={{fontSize: '0.8rem', color: '#64748b'}}>
-                   {new Date(r.datum).toLocaleString('cs-CZ', { dateStyle: 'long', timeStyle: 'short' })}
+        {/* SLUŽBY */}
+        <section id="sluzby">
+          <h2 style={{textAlign: 'center', marginBottom: '30px'}}>Naše prostory</h2>
+          <div className="grid-3">
+            <div className="card" style={{padding: '20px', textAlign: 'center'}}>
+              <div style={{fontSize: '3rem'}}>🖥️</div>
+              <h3>Open Space</h3>
+              <p>Sdílený prostor pro networking.</p>
+            </div>
+            <div className="card" style={{padding: '20px', textAlign: 'center'}}>
+              <div style={{fontSize: '3rem'}}>📞</div>
+              <h3>Phone Booths</h3>
+              <p>Odhlučněné budky pro vaše hovory.</p>
+            </div>
+            <div className="card" style={{padding: '20px', textAlign: 'center'}}>
+              <div style={{fontSize: '3rem'}}>🛋️</div>
+              <h3>Relax Zóna</h3>
+              <p>Místo pro odpočinek a šachy.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* CENÍK */}
+        <section id="cenik">
+          <h2 style={{textAlign: 'center', marginBottom: '30px'}}>Členství</h2>
+          <div className="grid-3">
+            <div className="card" style={{textAlign: 'center', border: '1px solid #e2e8f0'}}>
+              <h4>Denní Pass</h4>
+              <div className="price-tag">350 Kč</div>
+              <p>Přístup na 1 den</p>
+            </div>
+            <div className="card" style={{textAlign: 'center', borderColor: '#2563eb', borderWeight: '2px'}}>
+              <h4>Monthly Fix</h4>
+              <div className="price-tag">4 500 Kč</div>
+              <p>Vlastní stůl 24/7</p>
+            </div>
+            <div className="card" style={{textAlign: 'center'}}>
+              <h4>Týmový kancl</h4>
+              <div className="price-tag"> od 12k</div>
+              <p>Soukromí pro váš tým</p>
+            </div>
+          </div>
+        </section>
+
+        {/* REZERVACE */}
+        <section id="rezervace" style={{marginTop: '80px'}}>
+          <div className="grid-res">
+            <div className="card">
+              <h2 style={{marginTop: 0}}>Rezervovat zasedačku</h2>
+              <form action={createReservation}>
+                <select name="mistnost">
+                  <option>Velká zasedačka (Premium)</option>
+                  <option>Malá zasedačka (Standard)</option>
+                  <option>Nahrávací studio</option>
+                </select>
+                <input name="jmeno" type="text" placeholder="Vaše jméno / Název firmy" required />
+                <input name="datum" type="datetime-local" required />
+                <button type="submit" className="btn">Vytvořit rezervaci</button>
+              </form>
+            </div>
+
+            <div>
+              <h3>Nadcházející schůzky</h3>
+              {rows.map((r) => (
+                <div key={r.id} className="res-card">
+                  <div style={{fontWeight: 'bold', color: '#2563eb'}}>{r.mistnost}</div>
+                  <div style={{fontSize: '1.2rem', margin: '5px 0'}}>{r.jmeno}</div>
+                  <div style={{fontSize: '0.9rem', color: '#64748b'}}>{new Date(r.datum).toLocaleString('cs-CZ')}</div>
                 </div>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      <footer style={{textAlign: 'center', marginTop: '60px', color: '#94a3b8', fontSize: '0.8rem'}}>
-        © 2026 HubSpace Prague. Všechna práva vyhrazena. | Adresa: Václavské náměstí 1, Praha
-      </footer>
-    </div>
+        <footer style={{textAlign: 'center', padding: '50px 0', color: '#94a3b8'}}>
+          HubSpace Prague &copy; 2026 | Vyrobeno pro semestrální práci
+        </footer>
+      </div>
+    </>
   );
 }
