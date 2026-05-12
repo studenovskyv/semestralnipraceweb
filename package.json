@@ -11,12 +11,6 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "@vercel/postgres": "latest",
-    "lucide-react": "latest",
-    "tailwindcss": "latest",
-    "postcss": "latest",
-    "autoprefixer": "latest",
-    "clsx": "latest",
-    "tailwind-merge": "latest"
+    "@vercel/postgres": "latest"
   }
 }
