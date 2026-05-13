@@ -9,11 +9,7 @@ export default async function Home() {
   let rows: any[] = [];
 
   try {
-    const data = await sql`
-      SELECT * FROM rezervace
-      ORDER BY datum DESC
-      LIMIT 5
-    `;
+    const data = await sql`SELECT * FROM rezervace ORDER BY datum DESC LIMIT 5`;
     rows = data.rows;
   } catch (e) {
     console.log('Chyba při načítání dat:', e);
@@ -27,14 +23,7 @@ export default async function Home() {
     const datum = formData.get('datum');
 
     try {
-      await sql`
-        INSERT INTO rezervace (mistnost, jmeno, datum)
-        VALUES (
-          ${mistnost as string},
-          ${jmeno as string},
-          ${datum as string}
-        )
-      `;
+      await sql`INSERT INTO rezervace (mistnost, jmeno, datum) VALUES (${mistnost as string}, ${jmeno as string}, ${datum as string})`;
 
       revalidatePath('/');
     } catch (e) {
