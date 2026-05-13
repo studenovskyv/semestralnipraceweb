@@ -1,3 +1,6 @@
+# app/page.tsx
+
+```tsx
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
@@ -6,8 +9,11 @@ export default async function Home() {
   let rows: any[] = [];
 
   try {
-    const data =
-      await sql`SELECT * FROM rezervace ORDER BY datum DESC LIMIT 5`;
+    const data = await sql`
+      SELECT * FROM rezervace
+      ORDER BY datum DESC
+      LIMIT 5
+    `;
     rows = data.rows;
   } catch (e) {
     console.log('Chyba při načítání dat:', e);
@@ -29,6 +35,7 @@ export default async function Home() {
           ${datum as string}
         )
       `;
+
       revalidatePath('/');
     } catch (e) {
       console.log('Chyba při zápisu:', e);
@@ -444,9 +451,9 @@ export default async function Home() {
                     lineHeight: '1.6',
                   }}
                 >
-                  Po potvrzení rezervace obdržíte do e-mailu unikátní
-                  kód, kterým si odemknete hlavní vchod i vybranou
-                  místnost. U měsíčních členů využíváme mobilní aplikaci.
+                  Po potvrzení rezervace obdržíte do e-mailu unikátní kód,
+                  kterým si odemknete hlavní vchod i vybranou místnost. U
+                  měsíčních členů využíváme mobilní aplikaci.
                 </p>
               </details>
 
@@ -474,9 +481,9 @@ export default async function Home() {
                     lineHeight: '1.6',
                   }}
                 >
-                  Ano! Pokud máte rezervovanou zasedací místnost, hosté
-                  mají vstup v ceně. V coworkingové zóně může mít každý
-                  člen jednoho hosta na maximálně 2 hodiny zdarma.
+                  Ano! Pokud máte rezervovanou zasedací místnost, hosté mají
+                  vstup v ceně. V coworkingové zóně může mít každý člen jednoho
+                  hosta na maximálně 2 hodiny zdarma.
                 </p>
               </details>
 
@@ -504,9 +511,9 @@ export default async function Home() {
                     lineHeight: '1.6',
                   }}
                 >
-                  V celém HubSpace disponujeme symetrickým optickým
-                  připojením o rychlosti 1 Gbps. WiFi je rozvedena
-                  standardem WiFi 6 pro maximální stabilitu.
+                  V celém HubSpace disponujeme symetrickým optickým připojením
+                  o rychlosti 1 Gbps. WiFi je rozvedena standardem WiFi 6 pro
+                  maximální stabilitu.
                 </p>
               </details>
 
@@ -534,10 +541,9 @@ export default async function Home() {
                     lineHeight: '1.6',
                   }}
                 >
-                  Přímo před budovou máme 5 vyhrazených míst pro
-                  krátkodobé stání. Pro dlouhodobé parkování lze využít
-                  podzemní garáže v sousední ulici se slevou pro naše
-                  členy.
+                  Přímo před budovou máme 5 vyhrazených míst pro krátkodobé
+                  stání. Pro dlouhodobé parkování lze využít podzemní garáže v
+                  sousední ulici se slevou pro naše členy.
                 </p>
               </details>
             </div>
@@ -572,3 +578,4 @@ export default async function Home() {
     </>
   );
 }
+```
