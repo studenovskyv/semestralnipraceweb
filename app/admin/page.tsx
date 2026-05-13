@@ -1,21 +1,14 @@
-import { sql } from '@vercel/postgres';
-import { NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache'; // <--- Přidat tento import
+"use client";
 
-export async function PUT(request: Request) {
-  try {
-    const { id, jmeno, mistnost } = await request.json();
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
-    await sql`
-      UPDATE rezervace 
-      SET jmeno = ${jmeno}, mistnost = ${mistnost} 
-      WHERE id = ${id}
-    `;
-
-    revalidatePath('/'); // <--- Vymazat mezipaměť
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: 'Chyba' }, { status: 500 });
-  }
+interface Rezervace {
+  id: number;
+  jmeno: string;
+  mistnost: string;
 }
+
+// TADY JE TA CHYBA - MUSÍ TU BÝT "export default function"
+export default function AdminPage() { 
+  // ... zbytek kódu
